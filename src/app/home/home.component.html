@@ -1,0 +1,13 @@
+<h2>Üdvözöllek az oldalon!</h2>
+<h3>Válassz kategóriát!</h3>
+<div class="category-grid">
+  <button
+    mat-raised-button
+    class="category-item"
+    *ngFor="let category of categories"
+    color="primary"
+    (click)="onCategoryClick(category)"
+  >
+    {{ category.name }}
+  </button>
+</div>

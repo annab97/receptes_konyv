@@ -1,0 +1,10 @@
+.category-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.category-item {
+  margin: 10px;
+}
