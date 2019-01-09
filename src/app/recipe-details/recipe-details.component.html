@@ -1,0 +1,45 @@
+<div class="header">
+  <h2>{{ recipe.name }}</h2>
+  <button
+    class="edit-button"
+    mat-button
+    matSuffix
+    mat-icon-button
+    matTooltip="módosítás"
+    (click)="editRecipe()"
+  >
+    <mat-icon>create</mat-icon>
+  </button>
+</div>
+Link: <a href="{{ recipe.link }}" target="blank">{{ recipe.link }}</a>
+<h3>Hozzávalók:</h3>
+<ul>
+  <li *ngFor="let ingredient of recipe.contains">
+    {{ ingredient.amount }} {{ ingredient.defaultUnit }} {{ ingredient.name }}
+  </li>
+</ul>
+<h3>Tapasztalatok</h3>
+<div>
+  <span *ngIf="!recipe.experiences">Nincs még tapasztalat</span>
+  {{ recipe.experiences }}
+</div>
+<button
+  *ngIf="!inShoppingList()"
+  mat-raised-button
+  color="primary"
+  (click)="addToListClicked()"
+>
+  Bevásárlólistához adás
+</button>
+
+<div *ngIf="inShoppingList()">
+  <h3>Bevásárlólista</h3>
+  Bevásárlólistához adva:
+  <button mat-button matSuffix mat-icon-button (click)="downArrowClicked()">
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </button>
+  {{ timesInShoppingList() }}
+  <button mat-button matSuffix mat-icon-button (click)="upArrowClicked()">
+    <mat-icon>keyboard_arrow_up</mat-icon>
+  </button>
+</div>

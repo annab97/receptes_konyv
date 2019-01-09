@@ -1,0 +1,54 @@
+<div class="header">
+  <h2>Bevásárló lista</h2>
+  <button
+    *ngIf="!listIsEmpty()"
+    mat-button
+    matSuffix
+    mat-icon-button
+    matTooltip="nyomtatás"
+    (click)="print()"
+  >
+    <mat-icon>print</mat-icon>
+  </button>
+  <button
+    *ngIf="!listIsEmpty()"
+    mat-button
+    matSuffix
+    mat-icon-button
+    matTooltip="lista törlése"
+    (click)="clearList()"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>
+<h3>Lista</h3>
+<ul>
+  <li *ngFor="let ingredient of list">
+    {{ ingredient.amount }} {{ ingredient.defaultUnit }} {{ ingredient.name }}
+  </li>
+</ul>
+<div class="recipes">
+  <h3>Felhasznált receptek</h3>
+  <ul>
+    <li *ngFor="let recipe of recipes">
+      {{ recipe.recipe.name }}:
+      <button
+        mat-button
+        matSuffix
+        mat-icon-button
+        (click)="downArrowClicked(recipe)"
+      >
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </button>
+      {{ recipe.times }}
+      <button
+        mat-button
+        matSuffix
+        mat-icon-button
+        (click)="upArrowClicked(recipe)"
+      >
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </button>
+    </li>
+  </ul>
+</div>

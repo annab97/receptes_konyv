@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Category } from "../category";
+import { Router } from "@angular/router";
+import { RecipeService } from "../recipe.service";
 
 @Component({
   selector: "app-home",
@@ -7,17 +9,15 @@ import { Category } from "../category";
   styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
-  categories: Category[] = [
-    { name: "Főételek", href: "maindish" },
-    { name: "Rágcsák", href: "snacks" },
-    { name: "Muffinok", href: "cupcakes" },
-    { name: "Egyéb desszertek", href: "desserts" }
-  ];
-
+  categories: Category[] = [];
   onCategoryClick(category: Category) {
-    category.name = "clicked";
+    this.router.navigate(["/recipes", { category: category.code }]);
   }
-  constructor() {}
+  constructor(private router: Router, private recipeService: RecipeService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.recipeService
+      .getCategories()
+      .subscribe(categories => (this.categories = categories));
+  }
 }

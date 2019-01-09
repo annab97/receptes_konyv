@@ -1,0 +1,95 @@
+<h2 *ngIf="isAdd">Új recept</h2>
+<h2 *ngIf="!isAdd">Recept módosítása</h2>
+<form
+  [formGroup]="newRecipeForm"
+  (ngSubmit)="onSubmit()"
+  (keydown.enter)="$event.preventDefault()"
+>
+  <div>
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Recept neve"
+        formControlName="name"
+        required
+      />
+      <mat-error *ngIf="newRecipeForm.get('name').invalid"
+        >Hiányzó név</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Recept linkje" formControlName="link" />
+      <mat-error *ngIf="newRecipeForm.get('link').invalid"
+        >Helytelen link</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <mat-form-field>
+    <mat-select placeholder="Kategória" formControlName="category">
+      <mat-option *ngFor="let category of categories" [value]="category.id">
+        {{ category.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div>
+    <h3>Hozzávalók</h3>
+    <ul>
+      <div formArrayName="ingredients">
+        <li *ngFor="let ingredient of ingredients; let i = index">
+          <mat-form-field floatLabel="never">
+            <input
+              matInput
+              placeholder="hozzávaló"
+              [formControlName]="i"
+              (change)="onIngredientChange(i)"
+            />
+            <button
+              mat-button
+              matSuffix
+              mat-icon-button
+              type="button"
+              (click)="deleteIngredient(i)"
+            >
+              <mat-icon>clear</mat-icon>
+            </button>
+            <mat-error *ngIf="!isIngredientValidFormat(i)">
+              Helytelen formátum! helyes pl. 1kg liszt
+            </mat-error>
+            <mat-error *ngIf="!isIngredientExists(i)">
+              Hozzávaló nem létezik!
+            </mat-error>
+          </mat-form-field>
+        </li>
+      </div>
+      <li>
+        <mat-form-field floatLabel="never">
+          <input
+            matInput
+            placeholder="új hozzávaló"
+            formControlName="newingredient"
+            (keydown.enter)="newIngredient()"
+          />
+          <mat-hint>Bevitelhez nyomd meg az entert! (pl. 1kg liszt)</mat-hint>
+        </mat-form-field>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <h3>Tapasztalatok</h3>
+    <mat-form-field>
+      <textarea matInput formControlName="experiences"></textarea>
+    </mat-form-field>
+  </div>
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="!newRecipeForm.valid"
+  >
+    Kész
+  </button>
+</form>

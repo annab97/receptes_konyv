@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  align-items: flex-start;
+}
+
+.header button {
+  margin-top: 0.75em;
+}
+
+@media print {
+  h3 {
+    display: none;
+  }
+  .recipes {
+    display: none;
+  }
+
+  button {
+    display: none;
+  }
+
+  ul {
+    list-style-image: url("/assets/check-box-empty.svg");
+    div {
+      vertical-align: middle;
+    }
+  }
+}

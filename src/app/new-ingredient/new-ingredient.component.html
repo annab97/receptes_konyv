@@ -1,0 +1,109 @@
+<h2>Új hozzávaló</h2>
+<form
+  [formGroup]="newIngredientForm"
+  (ngSubmit)="onSubmit()"
+  (keydown.enter)="$event.preventDefault()"
+>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Hozzávaló neve"
+      formControlName="name"
+      required
+    />
+    <mat-error *ngIf="newIngredientForm.get('name').invalid"
+      >Hiányzó név</mat-error
+    >
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Alapértelmezett mértékegység"
+      formControlName="defaultUnit"
+      required
+    />
+    <mat-error *ngIf="newIngredientForm.get('defaultUnit').invalid"
+      >Hiányzó mértékegység</mat-error
+    >
+  </mat-form-field>
+  <h3>Mértékegységek:</h3>
+  <ul formArrayName="acceptedUnits">
+    <li>
+      <mat-form-field floatLabel="never">
+        <input
+          matInput
+          placeholder="név"
+          value="{{ newIngredientForm.get('defaultUnit').value }}"
+          disabled
+          required
+        />
+      </mat-form-field>
+      <mat-form-field floatLabel="never">
+        <input
+          matInput
+          placeholder="arány"
+          type="number"
+          value="1"
+          disabled
+          required
+        />
+      </mat-form-field>
+    </li>
+    <li *ngFor="let unit of acceptedUnits; let i = index">
+      <div [formGroupName]="i">
+        <mat-form-field floatLabel="never">
+          <input
+            matInput
+            placeholder="név"
+            formControlName="name"
+            (change)="onUnitNameChange(i)"
+            required
+          />
+          <mat-error *ngIf="!isUnitNameGiven(i)">Hiányzó név</mat-error>
+          <mat-error *ngIf="!isUnitNameUnique(i)"
+            >Ismétlődő mértékegység</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field floatLabel="never">
+          <input
+            matInput
+            placeholder="arány"
+            type="number"
+            formControlName="rate"
+            (change)="onUnitRateChange(i)"
+            required
+          />
+          <mat-error *ngIf="!isUnitRateValid(i)">Hiányzó arány</mat-error>
+        </mat-form-field>
+        <button
+          mat-button
+          matSuffix
+          mat-icon-button
+          type="button"
+          (click)="deleteUnit(i)"
+        >
+          <mat-icon>clear</mat-icon>
+        </button>
+      </div>
+    </li>
+
+    <button
+      mat-button
+      matSuffix
+      mat-icon-button
+      type="button"
+      (click)="newUnit()"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </ul>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="!newIngredientForm.valid"
+  >
+    Kész
+  </button>
+</form>

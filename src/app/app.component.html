@@ -1,23 +1,52 @@
-<div class="page">
+<div class="page" *ngIf="dataSourceInitalizes">
   <mat-toolbar color="primary" class="toolbar">
-    <span>Receptes Könyv</span>
-    <span class="search"
-      ><input
-        matInput
-        type="text"
-        placeholder="Keresés"
-        [(ngModel)]="searchValue"
-      />
+    <a class="title" href="/home">Receptes Könyv</a>
+    <span
+      ><span class="search"
+        ><input
+          type="text"
+          placeholder="Keresés"
+          (keydown.enter)="searchButtonClicked()"
+          [(ngModel)]="searchValue"
+        />
+        <button
+          mat-button
+          matSuffix
+          mat-icon-button
+          aria-label="Keres"
+          matTooltip="keresés"
+          (click)="searchButtonClicked()"
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+      </span>
       <button
         mat-button
         matSuffix
         mat-icon-button
-        aria-label="Keres"
-        (click)="searchValue = ''"
+        matTooltip="új"
+        aria-label="Új"
+        [matMenuTriggerFor]="createMenu"
       >
-        <mat-icon>search</mat-icon>
+        <mat-icon>create</mat-icon>
       </button>
-    </span></mat-toolbar
-  >
-  <app-home></app-home>
+      <mat-menu #createMenu="matMenu" xPosition="before">
+        <button mat-menu-item (click)="newIngredient()">új összetevő</button>
+        <button mat-menu-item (click)="newRecipe()">új recept</button>
+      </mat-menu>
+      <button
+        mat-button
+        matSuffix
+        mat-icon-button
+        aria-label="Bevásárló lista"
+        matTooltip="bevásárló lista"
+        (click)="shoppingListClicked()"
+      >
+        <mat-icon>shopping_cart</mat-icon>
+      </button>
+    </span>
+  </mat-toolbar>
+
+  <div class="content"><router-outlet></router-outlet></div>
 </div>
+<app-one-dblogin *ngIf="!dataSourceInitalizes"></app-one-dblogin>

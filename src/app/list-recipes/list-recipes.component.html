@@ -1,0 +1,10 @@
+<h2>Találatok:</h2>
+
+<mat-nav-list>
+  <a
+    mat-list-item
+    *ngFor="let recipe of recipes"
+    routerLink="/recipe/{{ recipe.id }}"
+    >{{ recipe.name }}</a
+  >
+</mat-nav-list>
